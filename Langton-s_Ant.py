@@ -50,7 +50,7 @@ def main():
             
         #update the board state to the next generation
         if not pause:
-            time.sleep(1)
+            time.sleep(0)
             board, posx, posy, dir_ant = update_board(board, dir_ant, posx, posy)
             generation += 1
             #display generation number
@@ -70,7 +70,7 @@ def initialize_board():
     return [[False for x in range(Nbr_Cell_x)] for y in range(Nbr_Cell_y)]
 
 def update_board(board, dir_ant, x, y):
-    next_board= initialize_board()
+    next_board= board
     if board[y][x]:
         next_board[y][x] = False
     else:
