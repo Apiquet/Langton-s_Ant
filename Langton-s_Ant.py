@@ -24,8 +24,8 @@ def main():
     #creation of the board
     board= initialize_board()
     pause = True
-    posx=Nbr_Cell_x/2
-    posy=Nbr_Cell_y/2
+    posx=35
+    posy=35
     dir_ant = "haut"
 
     #number of the generation
@@ -51,7 +51,7 @@ def main():
         #update the board state to the next generation
         if not pause:
             time.sleep(1)
-            board, posx, posy = update_board(board, dir_ant, posx, posy)
+            board, posx, posy, dir_ant = update_board(board, dir_ant, posx, posy)
             generation += 1
             #display generation number
             print("Generation {}".format(generation))
@@ -71,45 +71,39 @@ def initialize_board():
 
 def update_board(board, dir_ant, x, y):
     next_board= initialize_board()
-    next_x=0
-    next_y=0 
-    for x in range(Nbr_Cell_y):
-        for y in range(Nbr_Cell_x):
-            next_x, next_y, dir_aut = find_ant_turn(board, dir_ant, x, y)
-            if board[y][x]:
-                next_board[y][x] = False
-            else:
-                next_board[y][x] = True
-    return next_board, next_x, next_y
+    if board[y][x]:
+        next_board[y][x] = False
+    else:
+        next_board[y][x] = True
+    x, y, dir_ant = find_ant_turn(board, dir_ant, x, y)        
+    return next_board, x, y, dir_ant
 
 def find_ant_turn(board, dir_ant, x, y):
     next_dir=""
-    next_x=0
-    next_y=0
     if board[y][x] == True:
-        next_x, next_y, next_dir = find_right_cell(board, dir_ant, x, y)
-    if board[y][x] == False:
-        next_x, next_y, next_dir = find_left_cell(board, dir_ant, x, y)
+        x, y, next_dir = find_right_cell(board, dir_ant, x, y)
+    elif board[y][x] == False:
+        x, y, next_dir = find_left_cell(board, dir_ant, x, y)
     return x, y, next_dir
 
 def find_right_cell(board, dir_ant, x, y):
     if dir_ant == "haut":
         return (x+1), y, "droite"
-    if dir_ant == "bas":
+    elif dir_ant == "bas":
         return (x-1), y, "gauche"
-    if dir_ant == "gauche":
+    elif dir_ant == "gauche":
         return x, y+1, "haut"
-    if dir_ant == "droite":
+    elif dir_ant == "droite":
         return x, y-1, "bas"
 
 def find_left_cell(board, dir_ant, x, y):
     if dir_ant == "haut":
         return (x-1), y, "gauche"
-    if dir_ant == "bas":
+    elif dir_ant == "bas":
         return (x+1), y, "droite"
-    if dir_ant == "gauche":
+    elif dir_ant == "gauche":
         return x, y-1, "bas"
-    if dir_ant == "droite":
+    elif dir_ant == "droite":
         return x, y+1, "haut"
 
 
